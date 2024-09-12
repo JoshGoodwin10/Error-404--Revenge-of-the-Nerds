@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
 {
     // Movement on the x and z axis of player 
     [Header("Player Movement")]
-    public float movementSpeed = 500;
+    public float movementSpeed;
     public Transform orientation; // Used to determine the angle movement occurs in.
 
     float horizontalInput;
@@ -42,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     public float maxSlopeIncline;
     public RaycastHit slopeCheck;
     public int slopeDownForce; 
+
+    //Josh
+    public bool isWallRunning = false;
 
 
     public void Start()

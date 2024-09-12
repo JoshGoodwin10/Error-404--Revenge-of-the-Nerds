@@ -121,15 +121,15 @@ public class GunHandler : MonoBehaviour
         Vector3 rawDirection = gunCamera.transform.forward; // Normal Reticle Position
         Vector3 bulletLineDirection = rawDirection + spreadModification;
 
-        Debug.Log("Raw Aim : " + rawDirection);
-        Debug.Log("Bullet Direction : " + bulletLineDirection);
+       // Debug.Log("Raw Aim : " + rawDirection);
+        //Debug.Log("Bullet Direction : " + bulletLineDirection);
 
 
         // Shoot from the view of the gunCamera
         if (Physics.Raycast(gunCamera.transform.position, bulletLineDirection, out bulletLine, targetHit))
         {
             GameObject hitObject = bulletLine.collider.gameObject;
-            Debug.Log(hitObject.name);
+            Debug.Log(hitObject.name + " test");
             if (bulletLine.collider.CompareTag("Enemy"))
             {
                 Debug.Log("Enemy Hit");
@@ -153,7 +153,7 @@ public class GunHandler : MonoBehaviour
         // Handles multiple shots from one click
         if (remainingBullets > 0 && bulletsShot < bulletsPerClick)
         {
-            Debug.Log("Continuing Firing remaining shots.");
+            //Debug.Log("Continuing Firing remaining shots.");
             Invoke("fire", continuousShotDelay);
         }
         else

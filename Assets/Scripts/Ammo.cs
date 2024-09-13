@@ -8,7 +8,7 @@ public class Ammo : MonoBehaviour
     private float maxCapacity;
     private float bulletsRemaining;
     private float roundsLeft;
-     private bool isReloading = false;
+    private bool isReloading = false;
     private float reloadDelay = 1f;
 
     [SerializeField] public TMP_Text ammoText;
@@ -28,7 +28,7 @@ public class Ammo : MonoBehaviour
         {
             bulletsRemaining--;
             ammoText.text = roundsLeft + " | " + bulletsRemaining;
-            
+
             if (bulletsRemaining == 0 && roundsLeft > 0)
             {
                 StartCoroutine(Reload());
@@ -54,4 +54,46 @@ public class Ammo : MonoBehaviour
 
         isReloading = false;
     }
+
+    //public TextMeshProUGUI ammoCount;
+    //public GunHandler gunInformation;
+
+
+    //string magazineCapacity;
+    //string remainingBullets;
+
+
+    //private void displayAmmoCount()
+    //{
+    //    magazineCapacity = gunInformation.magazineCapacity.ToString();
+    //    remainingBullets = gunInformation.remainingBullets.ToString();
+    //    ammoCount.text = remainingBullets + "/" + magazineCapacity;
+    //}
+
+
+    //private void displayReload()
+    //{
+    //    ammoCount.text = "Reloading...";
+    //}
+
+
+    //private void Start()
+    //{
+
+    //    displayAmmoCount();
+    //}
+
+
+    //private void Update()
+    //{
+    //    if (gunInformation.reloading)
+    //    {
+    //        displayReload();
+    //    }
+    //    else
+    //    {
+    //        displayAmmoCount();
+
+    //    }
+    //}
 }

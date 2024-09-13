@@ -5,18 +5,21 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Gun
+  - weaponChange
+  - GunHolder
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Enemy
+  - 
   - Water
   - UI
   - UI2
   - Ground
   - Player
+  - Enemy
   - 
-  - Wall
   - 
   - 
   - 

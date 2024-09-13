@@ -39,6 +39,8 @@ public class GunHandler : MonoBehaviour
     public Camera gunCamera;
     public RaycastHit bulletLine;
     public Transform reticlePosition;
+  
+    
     public LayerMask targetHit;
 
 
@@ -51,14 +53,19 @@ public class GunHandler : MonoBehaviour
     void Update()
     {
         accessInput();
+
+        // Josh, to update the UI
+        ammoText.text = remainingBullets + " | " + magazineCapacity;
     }
     void Start()
     {
         //Debug.Log("Start Gun Handler");
         remainingBullets = magazineCapacity;
         readyToShoot = true;
+
+        // TODO : maybe move to update
         // Josh's addition, to set inital UI bullet count
-        ammoText.text = remainingBullets + " | " + magazineCapacity;
+        //ammoText.text = remainingBullets + " | " + magazineCapacity;
     }
     public void accessInput()
     {
@@ -108,28 +115,31 @@ public class GunHandler : MonoBehaviour
     public void fire()
     {
         Vector3 spreadModification = new Vector3(Random.Range(-spread, spread), Random.Range(-spread, spread), 0);
-        Debug.Log(spreadModification);
+        //Debug.Log(spreadModification);
         readyToShoot = false;
 
 
 
         bulletsShot += 1;
 
-        // Josh, to update the UI
-        ammoText.text = remainingBullets + " | " + magazineCapacity;
+        //// Josh, to update the UI
+        //ammoText.text = remainingBullets + " | " + magazineCapacity;
 
         Vector3 rawDirection = gunCamera.transform.forward; // Normal Reticle Position
         Vector3 bulletLineDirection = rawDirection + spreadModification;
 
-       // Debug.Log("Raw Aim : " + rawDirection);
+        Debug.Log("Raw Aim : " + rawDirection);
         //Debug.Log("Bullet Direction : " + bulletLineDirection);
 
 
         // Shoot from the view of the gunCamera
         if (Physics.Raycast(gunCamera.transform.position, bulletLineDirection, out bulletLine, targetHit))
         {
+            Debug.Log("PAIN");
             GameObject hitObject = bulletLine.collider.gameObject;
-            Debug.Log(hitObject.name + " test");
+            Debug.Log("Bullet Line Hit -> " + hitObject.name);
+            Debug.Log("Bullet Line Hit Layer -> " + hitObject.layer);
+
             if (bulletLine.collider.CompareTag("Enemy"))
             {
                 Debug.Log("Enemy Hit");
@@ -141,7 +151,7 @@ public class GunHandler : MonoBehaviour
             }
             else
             {
-                Debug.Log("No Enemy Hit");
+                //Debug.Log("No Enemy Hit");
             }
 
         }
@@ -159,6 +169,7 @@ public class GunHandler : MonoBehaviour
         else
         {
             remainingBullets -= 1;
+
         }
 
         Invoke("allowShooting", fireRate);
@@ -169,5 +180,23 @@ public class GunHandler : MonoBehaviour
     void allowShooting()
     {
         readyToShoot = true;
+    }
+
+
+    public void setGunConfig(GunConfig gun)
+    {
+        //Debug.Log("TEST GUN CONFIG");
+        this.damageDealt = gun.damageDealt;
+        this.reloadTime = gun.reloadTime;
+        this.fireRate = gun.fireRate;
+
+        //Debug.Log("gun fire rate : " + (float)(gun.fireRate));
+        this.maxRange = gun.maxRange;
+        this.continuousShotDelay = gun.continuousShotDelay;
+        this.spread = gun.spread;
+        this.magazineCapacity = gun.magazineCapacity;
+        this.fullAuto = gun.fullAuto;
+        this.bulletsPerClick = gun.bulletsPerClick;
+        this.remainingBullets = gun.magazineCapacity;
     }
 }

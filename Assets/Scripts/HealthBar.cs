@@ -7,10 +7,11 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    public PlayerMovement PM;
     [SerializeField] private Slider slider;
     [SerializeField] private TMP_Text hpNumberText;
     public Image sliderFill;
-    private float health = 100;
+    private float health;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,25 +22,20 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            if (health > 0)
-            {
-                health -= 5f;
-                slider.value = health;
-                hpNumberText.text = health.ToString();
-            }
-        }
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            if (health <= 99)
-            {
-                health += 5f;
-                slider.value = health;
-                hpNumberText.text = health.ToString();
-            }
-        }
+        health = PM.playerHealth;
+        hpNumberText.text = health.ToString();
+        slider.value = health;
 
+        sliderFill.color = Color.Lerp(Color.red, Color.green, slider.value / 100);
+    }
+
+    // SetHealth Method done by Hayley Rossouw
+    public void SetHealth(float newHealth)
+    {
+        PM.playerHealth = (int)newHealth;
+        Mathf.Clamp(newHealth, 0, 100); // Ensure health stays within bounds
+        slider.value = health;
+        hpNumberText.text = health.ToString();
         sliderFill.color = Color.Lerp(Color.red, Color.green, slider.value / 100);
     }
 }

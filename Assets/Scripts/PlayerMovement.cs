@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Player Health")] // Josh Addition
+    public int playerHealth;
     // Movement on the x and z axis of player 
     [Header("Player Movement")]
-    public float movementSpeed;
+    public float movementSpeed = 500;
     public Transform orientation; // Used to determine the angle movement occurs in.
 
     float horizontalInput;
@@ -43,9 +45,7 @@ public class PlayerMovement : MonoBehaviour
     public RaycastHit slopeCheck;
     public int slopeDownForce; 
 
-    //Josh
     public bool isWallRunning = false;
-
 
     public void Start()
     {
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
         if(Physics.Raycast(transform.position, Vector3.down, out slopeCheck, playerHeight*0.5f + 0.3f))
         {
             float slopeAngle = Vector3.Angle(Vector3.up, slopeCheck.normal);
-            Debug.Log("Slope Angle : " + slopeAngle);
+            //Debug.Log("Slope Angle : " + slopeAngle);
             return (slopeAngle > 0 && slopeAngle <= maxSlopeIncline);
         }
         return false;
@@ -97,13 +97,13 @@ public class PlayerMovement : MonoBehaviour
         {
             sprint();
             isSprinting = true;
-            Debug.Log("Left Shift");
+            //Debug.Log("Left Shift");
         }
 
 
         if (Input.GetKeyUp(sprintKey))
         {
-            Debug.Log("Up Left Shift");
+            //Debug.Log("Up Left Shift");
             resetSprint();
         }
 
@@ -219,6 +219,12 @@ public class PlayerMovement : MonoBehaviour
     {
         isSprinting = false;
         movementSpeed = (float)(movementSpeed/ 1.5);
+    }
+
+    // Josh addition
+    public void damagePlayer(int damageAmount)
+    {
+        playerHealth = playerHealth - damageAmount;
     }
 
 }

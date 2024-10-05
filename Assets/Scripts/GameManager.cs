@@ -7,18 +7,26 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject pauseMenu;
+    [SerializeField] public PlayerMovement PM;
+    [SerializeField] public GameObject pauseMenu;
+    public TokenManager TM;
     public GameObject HUD;
+    public GameObject endMenu;
     public bool isPaused;
     public TMP_Text killCount;
     public TMP_Text waveIndicatorText;
 
-    private float numberKills;
+    public float numberKills;
     private float enemiesLeft;
     private float currentWave;
+
+    public EnemySpawner ES;
     // Start is called before the first frame update
     void Start()
     {
+
+        Time.timeScale = 1f;
+
         isPaused = false;
         numberKills = 0;
         enemiesLeft = 10;
@@ -29,6 +37,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        waveIndicatorText.text = "Wave " + currentWave;
+        enemiesLeft = ES.remainingEnemies;
+        Debug.Log("Left: " + enemiesLeft);
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused)
@@ -42,10 +54,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.K))
+        if (PM.playerHealth <= 0)
         {
-            enemyKilled();
+            endGame();
         }
+        killCount.text = "" + numberKills;
     }
 
     public void pauseGame()
@@ -54,7 +67,8 @@ public class GameManager : MonoBehaviour
         HUD.SetActive(false);
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
-        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     public void resumeGame()
@@ -63,6 +77,8 @@ public class GameManager : MonoBehaviour
         HUD.SetActive(true);
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void toMainMenu()
@@ -80,8 +96,10 @@ public class GameManager : MonoBehaviour
     {
         numberKills++;
         enemiesLeft--;
-        killCount.text = "" + numberKills;
+        
         isWaveFinished();
+
+        TM.AddTokens(50);
     }
 
     public bool isWaveFinished()
@@ -89,12 +107,19 @@ public class GameManager : MonoBehaviour
         if (enemiesLeft == 0)
         {
             currentWave++;
-            waveIndicatorText.text = "Wave " + currentWave;
-            enemiesLeft = 10;
             return true;
         }
 
         else
             return false;    
+    }
+
+    public void endGame()
+    {
+        HUD.SetActive(false);
+        endMenu.SetActive(true);
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

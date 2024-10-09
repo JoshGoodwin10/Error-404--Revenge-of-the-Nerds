@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using DG.Tweening;
 
 public class PlayerCamera : MonoBehaviour
 {
@@ -11,7 +11,7 @@ public class PlayerCamera : MonoBehaviour
 
     
     public Transform orientation; // Orientation of the player - used for rotation on the y-axis 
-
+    public Transform camHolder;
 
     float xRotation;
     float yRotation;
@@ -44,11 +44,23 @@ public class PlayerCamera : MonoBehaviour
 
 
        
-        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0); 
+        camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0); 
         
         // Change Player rotation on the y-axis
         orientation.rotation = Quaternion.Euler(0, yRotation, 0); // Body Rotation
 
 
+    }
+
+    //Josh Stuff, camera tilt for wall run
+
+    public void changeFOV(float value)
+    {
+        GetComponent<Camera>().DOFieldOfView(value, 0.25f);
+    }
+
+    public void tiltCamera(float tilt)
+    {
+        transform.DOLocalRotate(new Vector3(0,0, tilt), 0.25f);
     }
 }

@@ -16,5 +16,5 @@ First person shooter game made in Unity for the COMP307 Computer Graphics module
 ## Attempted Feature: Ray Tracing
 - Attempted to include a graphic option to allow for ray traced graphics
 - Partially worked in some builds, but performance was never good enough to fully include
-- Was submitted individually and not as part of the project code
+- Was submitted individually and not as part of the original project code, but I have added it to the repo
 - Still plan on revisiting getting the ray tracer to work properly in the future
